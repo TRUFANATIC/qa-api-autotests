@@ -1,0 +1,21 @@
+name: API AutoTests CI
+
+on: [push]
+
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Скачать код из репозитория
+        uses: actions/checkout@v4
+
+      - name: Установить Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Установить библиотеки pytest и requests
+        run: pip install pytest requests
+
+      - name: Запустить автотесты pytest
+        run: pytest -v
