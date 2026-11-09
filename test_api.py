@@ -39,7 +39,18 @@ def test_tc03_create_post():
 
 
 def test_tc04_delete_post():
-    """TC-04: Удаление поста DELETE /posts/1."""
-    response = requests.delete(f"{BASE_URL}/posts/1")
+    """TC-04: Создание поста и удаление его по полученному id."""
+    payload = {
+        "title": "Post to delete",
+        "body": "Created for TC-04 delete flow",
+        "userId": 1,
+    }
 
-    assert response.status_code == 200
+    create_response = requests.post(f"{BASE_URL}/posts", json=payload)
+    assert create_response.status_code == 201
+
+    post_id = create_response.json()["id"]
+    assert post_id is not None
+
+    delete_response = requests.delete(f"{BASE_URL}/posts/{post_id}")
+    assert delete_response.status_code == 200
