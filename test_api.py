@@ -1,6 +1,7 @@
 import requests
 
 BASE_URL = "https://jsonplaceholder.typicode.com"
+created_post_id = None
 
 
 def test_tc01_get_user_by_id():
@@ -23,6 +24,8 @@ def test_tc02_get_nonexistent_user():
 
 def test_tc03_create_post():
     """TC-03: Создание нового поста POST /posts."""
+    global created_post_id
+
     payload = {
         "title": "QA Automation Post",
         "body": "Created by automated test",
@@ -36,10 +39,12 @@ def test_tc03_create_post():
     post = response.json()
     assert post["title"] == "QA Automation Post"
     assert "id" in post
+    created_post_id = post["id"]
 
 
 def test_tc04_delete_post():
-    """TC-04: Удаление поста DELETE /posts/1."""
-    response = requests.delete(f"{BASE_URL}/posts/1")
+    """TC-04: Удаление поста, созданного в TC-03."""
+    assert created_post_id is not None
+    response = requests.delete(f"{BASE_URL}/posts/{created_post_id}")
 
     assert response.status_code == 200
