@@ -4,8 +4,8 @@ BASE_URL = "https://jsonplaceholder.typicode.com"
 created_post_id = None
 
 
-def test_tc01_get_user_by_id():
-    #TC-01: Получение пользователя GET /users/1.
+def test_api1_get_user_by_id():
+    #API-01: Получение пользователя GET /users/1.
     response = requests.get(f"{BASE_URL}/users/1")
 
     assert response.status_code == 200
@@ -15,15 +15,15 @@ def test_tc01_get_user_by_id():
     assert user["username"] == "Bret"
 
 
-def test_tc02_get_nonexistent_user():
-    #TC-02: Запрос несуществующего пользователя GET /users/99999.
+def test_api2_get_nonexistent_user():
+    #API-2: Запрос несуществующего пользователя GET /users/99999.
     response = requests.get(f"{BASE_URL}/users/99999")
 
     assert response.status_code == 404
 
 
-def test_tc03_create_post():
-    #TC-03: Создание нового поста POST /posts.
+def test_api3_create_post():
+    #API-3: Создание нового поста POST /posts.
     global created_post_id
 
     payload = {
@@ -42,8 +42,8 @@ def test_tc03_create_post():
     created_post_id = post["id"]
 
 
-def test_tc04_delete_post():
-    #TC-04: Удаление поста, созданного в TC-03.
+def test_api4_delete_post():
+    #API-4: Удаление поста, созданного в API-3.
     assert created_post_id is not None
     response = requests.delete(f"{BASE_URL}/posts/{created_post_id}")
 
